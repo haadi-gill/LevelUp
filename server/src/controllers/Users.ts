@@ -6,7 +6,7 @@ interface SignUpBody {
     username?: string;
     passwordRaw?: string;
     email?: string;
-}
+};
 
 export const register: RequestHandler = async (req, res, next) => {
 
@@ -37,4 +37,4 @@ export const register: RequestHandler = async (req, res, next) => {
     catch (error) {
         next(error);
     }
-}
+};
