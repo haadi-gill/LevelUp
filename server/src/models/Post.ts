@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const objectId = Schema.Types.ObjectId;
 
 const PostSchema = new Schema({
-    author: objectId,
+    author: String,
     title: String,
-    body: String,
+    caption: String,
     date: Date,
 }); 
 
