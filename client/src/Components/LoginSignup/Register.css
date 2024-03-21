@@ -13,7 +13,7 @@
 
 .logo {
     position: absolute;
-    top: 245px;
+    top: 210px;
     left: 150px;
 }
 
@@ -88,6 +88,12 @@
     font-size: 16px;
     color: #333;
     font-weight: 700;
+    transition: 0.3s;
+}
+
+.wrapper button:hover{
+    background: #6a24c0;
+    color: #fff;
 }
 
 .wrapper .register-link{

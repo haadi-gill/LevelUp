@@ -1,13 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import './Login.css'
 import {FaUserNinja, FaLock} from "react-icons/fa";
 import logo from '../Assets/LevelUpLogoSlogan.png'
+import { Link } from "react-router-dom";
 
 const Login = () => {
     return (
         <div>
-            <img src={logo} alt="Logo" className="logo" style={{ width: '30%', height: 'auto' }} />
+            <img src={logo} alt="Logo" className="logo" style={{ width: '40%', height: 'auto' }} />
             <div className='wrapper'>
                 <form action="">
                     <h1>Login</h1>
@@ -22,7 +22,7 @@ const Login = () => {
                     
                     <div className="remember-forgot">
                         <label><input type="checkbox" />Remember me</label>
-                        <a href="#">Lost Password?</a>
+                        <a href="/ForgotPassword">Lost Password?</a>
                     </div>
                     <button type="submit">Login</button>
                     <div className="register-link">
