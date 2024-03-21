@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
 import './Register.css'
 import {FaUserNinja, FaLock, FaUnlock} from "react-icons/fa";

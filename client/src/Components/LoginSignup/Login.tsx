@@ -1,4 +1,3 @@
-import React from 'react'
 import './Login.css'
 import {FaUserNinja, FaLock} from "react-icons/fa";
 import logo from '../Assets/LevelUpLogoSlogan.png'
