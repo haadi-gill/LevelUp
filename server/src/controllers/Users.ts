@@ -32,7 +32,7 @@ export const register: RequestHandler = async (req, res, next) => {
 
     try {
         if (!username || !passwordRaw || !email) {
-            throw new Error("Missing fields");
+            throw createHttpError(400, "Missing fields");
         }
 
         const existingUserName = await UserModel.findOne({ username: username }).exec();
