@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Login = () => {
     return (
         <div>
-            <img src={logo} alt="Logo" className="logo" style={{ width: '40%', height: 'auto' }} />
+            <img src={logo} alt="Logo" className="logo" style={{ width: '35%', height: 'auto' }} />
             <div className='wrapper'>
                 <form action="">
                     <h1>Login</h1>

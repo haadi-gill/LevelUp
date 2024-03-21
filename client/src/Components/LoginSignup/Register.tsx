@@ -7,7 +7,7 @@ import logo from '../Assets/LevelUpLogoSlogan.png'
 const Register = () => {
     return (
         <div>
-            <img src={logo} alt="Logo" className="logo" style={{ width: '40%', height: 'auto' }} />
+            <img src={logo} alt="Logo" className="logo" style={{ width: '35%', height: 'auto' }} />
             <div className='wrapper'>
                 <form action="">
                     <h1>Register</h1>
