@@ -1,18 +1,16 @@
-import express, { Request, Response } from "express";
+import app from "./app";
+import "dotenv/config";
+import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
-import PostModel from "./models/Post";
+const PORT = 5000;
 
-const app = express();
-
-const db = mongoose.connect(
-    "mongodb+srv://madepu03:OUngqQc63yvDWX6f@levelupcluster.lui4yjv.mongodb.net/?retryWrites=true&w=majority&appName=LevelUpCluster"
-);
-
-app.get("/", (req: Request, res: Response) => { 
-    res.send("Hello World");
-});
-
-
-
-app.listen(5000);
+mongoose.connect(process.env.MONGO_CONNECTION_STRING!)
+    .then(() => {
+        console.log("Connected to MongoDB");
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    })
+    .catch(console.error);
