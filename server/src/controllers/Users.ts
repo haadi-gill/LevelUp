@@ -20,7 +20,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     }
 };
 
-interface SignUpBody {
+interface RegisterBody {
     username?: string;
     passwordRaw?: string;
     email?: string;
@@ -28,7 +28,7 @@ interface SignUpBody {
 
 export const register: RequestHandler = async (req, res, next) => {
 
-    const { username, passwordRaw, email } = req.body as SignUpBody;
+    const { username, passwordRaw, email } = req.body as RegisterBody;
 
     try {
         if (!username || !passwordRaw || !email) {
@@ -37,12 +37,12 @@ export const register: RequestHandler = async (req, res, next) => {
 
         const existingUserName = await UserModel.findOne({ username: username }).exec();
         if (existingUserName) {
-            throw new Error("Username already exists. Please choose another one or login instead.");
+            throw createHttpError(409, "A user with this username already exists. Please choose a different username.");
         }
 
         const existingEmail = await UserModel.findOne({ email: email }).exec();
         if (existingEmail) {
-            throw new Error("A user with this email address already exists. Please login instead.");
+            throw createHttpError(409, "A user with this email already exists. Please choose a different email.");
         }
 
         const passwordHashed = await bcrypt.hash(passwordRaw, 10);
@@ -70,19 +70,19 @@ export const login: RequestHandler = async (req, res, next) => {
 
     try {
         if (!username || !passwordRaw) {
-            throw new Error("Missing fields");
+            throw createHttpError(400, "Missing fields");
         }
 
         const user = await UserModel.findOne({ username: username }).select("+password +email").exec();
 
         if (!user) {
-            throw new Error("User not found");
+            throw createHttpError(401, "User not found");
         }
 
         const passwordMatch = await bcrypt.compare(passwordRaw, user.password);
 
         if (!passwordMatch) {
-            throw new Error("Incorrect password");
+            throw createHttpError(401, "Invalid password");
         }
 
         req.session.userId = user._id;
