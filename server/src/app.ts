@@ -30,6 +30,7 @@ app.use(session({
 }));
 
 app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     next(Error("Endpoint not found"));
