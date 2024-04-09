@@ -5,7 +5,7 @@ import './Register.css'
 import {FaUserNinja, FaLock, FaUnlock} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import * as UsersApi from '../../network/users_api';
-import logo from '../Assets/LevelUpLogoSlogan.png'
+import logo from '../Assets/LevelUpLogo.png'
 
 const Register = () => {
 

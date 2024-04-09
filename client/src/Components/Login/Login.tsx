@@ -1,6 +1,6 @@
 import './Login.css'
 import {FaUserNinja, FaLock} from "react-icons/fa";
-import logo from '../Assets/LevelUpLogoSlogan.png'
+import logo from '../Assets/LevelUpLogo.png'
 import { Link } from "react-router-dom";
 import { LoginCredentials } from '../../network/users_api';
 import { useForm } from 'react-hook-form';
