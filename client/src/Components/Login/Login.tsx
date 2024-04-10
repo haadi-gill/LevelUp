@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className="login-container">
             <img src={logo} alt="Logo" className="logo" style={{ width: '35%', height: 'auto' }} />
             <div className='wrapper'>
                 <form action="" onSubmit={handleSubmit(onSubmit)}>

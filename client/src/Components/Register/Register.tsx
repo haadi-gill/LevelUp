@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { RegisterCredentials } from '../../network/users_api';
 import './Register.css'
-import {FaUserNinja, FaLock, FaUnlock} from "react-icons/fa";
+import {FaUserNinja, FaUnlock} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import * as UsersApi from '../../network/users_api';
 import logo from '../Assets/LevelUpLogo.png'
@@ -27,7 +27,7 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <div className="register-container">
             <img src={logo} alt="Logo" className="logo" style={{ width: '35%', height: 'auto' }} />
             <div className='wrapper'>
                 <form onSubmit={handleSubmit(onSubmit)} action="">

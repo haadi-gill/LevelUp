@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-body{
+/* body{
   margin: 0;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -21,7 +21,7 @@ body{
   background: url('./Components/Assets/StairsLandscape.png') no-repeat;
   background-size: cover;
   background-position: center;
-}
+} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
