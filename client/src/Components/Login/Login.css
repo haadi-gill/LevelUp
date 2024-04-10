@@ -20,12 +20,13 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+}
+body{
     background: url('../Assets/StairsLandscape.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 }
-
 .wrapper{
     width: 420px;
     background: transparent;
