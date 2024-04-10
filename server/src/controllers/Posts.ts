@@ -6,22 +6,27 @@ interface createPostBody {
     author?: String,
     title?: String,
     caption?: String,
+    image?: String,
+    taskList?: [{
+        task: String,
+        completed: Boolean
+    }]
 }; 
 
 
 
 export const create: RequestHandler = async (req, res, next) => {
 
-    const { author, title, caption } = req.body as createPostBody;
+    const { author, title, caption, image, taskList } = req.body as createPostBody;
 
     try {
-        if (!author || !title || !caption ) {
+        if (!author || !title || !caption || !image || !taskList) {
             throw new Error("Missing fields");
         }
 
         const date = new Date();
 
-        const post = await PostModel.create({ author, title, caption, date });
+        const post = await PostModel.create({ author, title, caption, date, image, taskList });
 
         res.status(201).json({ message: "Post created successfully", post: post });
 
@@ -40,4 +45,4 @@ export const getMyPosts: RequestHandler = async (req, res, next) => {
     catch (error) {
         next(error);
     }
-}
+};
