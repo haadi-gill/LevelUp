@@ -7,6 +7,7 @@ const PostSchema = new Schema({
     author: String,
     title: String,
     caption: String,
+    image: String,
     date: Date,
 }); 
 
