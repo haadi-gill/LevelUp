@@ -1,10 +1,11 @@
-import './Login.css'
 import {FaUserNinja, FaLock} from "react-icons/fa";
 import logo from '../Assets/LevelUpLogo.png'
 import { Link } from "react-router-dom";
 import { LoginCredentials } from '../../network/users_api';
 import { useForm } from 'react-hook-form';
 import * as UsersApi from '../../network/users_api';
+
+import './Login.css'
 
 const Login = () => {
 
@@ -26,6 +27,7 @@ const Login = () => {
     }
 
     return (
+
         <div className="login-container">
             <img src={logo} alt="Logo" className="logo" style={{ width: '35%', height: 'auto' }} />
             <div className='wrapper'>
