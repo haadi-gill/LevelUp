@@ -9,6 +9,12 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    extend: {
+      colors: {
+        socialBg:'#F5F7FB',
+        socialBlue:'#219DFA',
+      },
+    },
     container: {
       center: true,
       padding: "2rem",
