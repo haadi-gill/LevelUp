@@ -3,17 +3,22 @@ import logo from '../Assets/LevelUpLogo.png'
 import { Link } from "react-router-dom";
 import { LoginCredentials } from '../../network/users_api';
 import { useForm } from 'react-hook-form';
+import { Navigate } from "react-router-dom";
+import { useState } from 'react';
 import * as UsersApi from '../../network/users_api';
 import './Login.css'
 
 const Login = () => {
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginCredentials>();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [UserId, setUserId] = useState<string>("");
 
     async function onSubmit(credentials: LoginCredentials) {
         try {
-            const user = await UsersApi.login(credentials);
-            console.log(user);
+            const response = await UsersApi.login(credentials);
+            setUserId(response.user._id);
+            setIsLoggedIn(true);
         } catch (error) {
             if (error instanceof Error) {
                 alert(error.message);
@@ -23,6 +28,10 @@ const Login = () => {
                 console.error("An unexpected error occurred.");
             }
         }
+    }
+
+    if (isLoggedIn) {
+        return <Navigate to={`/HomePage/${UserId}`}/>;
     }
 
     return (
