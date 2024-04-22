@@ -13,7 +13,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
 
         const user = await UserModel.findById(authenticatedUserID).select("+email").exec();
 
-        res.status(200).json({ user: user });
+        res.status(200).json({ message: "returning authenticated user", user: user });
     }
     catch (error) {
         next(error);
