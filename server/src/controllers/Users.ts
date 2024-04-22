@@ -89,6 +89,10 @@ export const login: RequestHandler = async (req, res, next) => {
 
         res.status(201).json({ message: "Login successful", user: user });
 
+        req.session.save();
+
+        console.log(req.session);
+
     }
     catch (error) {
         next(error);

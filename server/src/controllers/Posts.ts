@@ -3,28 +3,30 @@ import PostModel from "../models/Post";
 
 
 interface createPostBody {
-    author?: String,
-    title?: String,
-    caption?: String,
-    date? : Date,
+    task?: String,
+    photos?: String,
     likes? : [{userID:String}]
+    user_id?: String
 }; 
 
 
 
 export const create: RequestHandler = async (req, res, next) => {
 
-    const { author, title, caption} = req.body as createPostBody;
+    const { task, photos, user_id } = req.body as createPostBody;
 
     try {
-        if (!author || !title) {
+        if (!task) {
             throw new Error("Missing fields");
         }
 
+        const author = user_id;
+        console.log(req.session);
         const date = new Date();
-        const likes = [];
+        const likes: { userID: string }[] = [];
+        const imageURL = photos;
 
-        const post = await PostModel.create({ author, title, caption, date });
+        const post = await PostModel.create({ author, task, date, imageURL, likes });
 
         res.status(201).json({ message: "Post created successfully", post: post });
 
@@ -45,14 +47,13 @@ export const getMyPosts: RequestHandler = async (req, res, next) => {
     }
 };
 
-
-export async function updateTitle(id: String, data: String): Promise<void>{
-
+export const getAllPosts: RequestHandler = async (req, res, next) => {
     try {
-        const post = await PostModel.find({ _id: id });
+        const posts = await PostModel.find().exec();
 
+        res.status(200).json({ posts: posts });
     }
     catch (error) {
         next(error);
     }
-};
+}
