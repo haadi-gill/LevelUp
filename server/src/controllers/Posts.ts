@@ -7,6 +7,7 @@ interface createPostBody {
     title?: String,
     caption?: String,
     date? : Date,
+    complete?: boolean,
     likes? : [{userID:String}]
 }; 
 
@@ -27,8 +28,9 @@ export const create: RequestHandler = async (req, res, next) => {
 
         const date = new Date();
         const likes = [];
+        const complete = false;
 
-        const post = await PostModel.create({ author, title, caption, date });
+        const post = await PostModel.create({ author, title, caption, date, complete});
 
         res.status(201).json({ message: "Post created successfully", post: post });
 
@@ -48,6 +50,66 @@ export const getMyPosts: RequestHandler = async (req, res, next) => {
         next(error);
     }
 };
+
+interface updatePostComplete{
+    postID?: String,
+    data?: Boolean
+}
+
+
+
+/**
+ *  A function to update the "done" status of a post 
+ * 
+ */
+export const updateCompletion: RequestHandler = async (req, res, next) => {
+    const {postID, data} = req.body as updatePostComplete;
+
+    try {
+        /**
+         * required to have the post id and the new value of the complete field in order to operate this command
+         */
+        if(!postID){
+            throw new Error("Missing fields");
+        }
+
+        /**
+         * Since the post is being updated, change the previous date value to the value of the most recent update
+         */
+        const date = new Date();
+        
+        /**
+         * To ensure that the post is within the database, since the command will only update, not create 
+         */
+        const post = await PostModel.find({ _id: postID });
+
+        /** 
+         * Length of zero means the post was not found in the database. This is worthy of throwing an error, as the function cannot be completed
+         */
+        if (post.length == 0){
+            throw new Error("Post not found")
+        }
+
+        /**
+         * Update both the title value and the date value of the particular post entry
+         * This is being stored as a newPost value to be sent to the status update, displaying the updated values
+         */
+        const newPost = await PostModel.updateOne({_id: postID}, {$set: {complete: data, date: date}});
+
+
+        /**
+         * Send a status update to show the post data has been modified successfully
+         */
+        
+        res.status(201).json({ message: "Post Update Successful", post:newPost});
+
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+
 
 
 /**
@@ -154,3 +216,5 @@ export const updateCaption: RequestHandler = async (req, res, next) => {
         next(error);
     }
 };
+
+

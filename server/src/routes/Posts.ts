@@ -7,5 +7,6 @@ router.post("/create", PostsController.create);
 router.get("/myposts", PostsController.getMyPosts);
 router.post("/update/title", PostsController.updateTitle);
 router.post("/update/caption", PostsController.updateCaption);
+router.post("/update/complete", PostsController.updateCompletion);
 
 export default router;

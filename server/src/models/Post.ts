@@ -7,6 +7,7 @@ const PostSchema = new Schema({
     title: String,
     caption: String,
     date: Date,
+    complete: Boolean,
     likes: [
         {
             userID: String
