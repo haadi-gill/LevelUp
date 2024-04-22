@@ -8,5 +8,6 @@ router.get("/myposts", PostsController.getMyPosts);
 router.post("/update/title", PostsController.updateTitle);
 router.post("/update/caption", PostsController.updateCaption);
 router.post("/update/complete", PostsController.updateCompletion);
+router.post("/update/likes", PostsController.updateLiked);
 
 export default router;
