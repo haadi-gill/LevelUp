@@ -10,6 +10,10 @@ interface createPostBody {
     likes? : [{userID:String}]
 }; 
 
+interface updatePostBody {
+    postID?: String,
+    data?: String
+}
 
 
 export const create: RequestHandler = async (req, res, next) => {
@@ -46,10 +50,104 @@ export const getMyPosts: RequestHandler = async (req, res, next) => {
 };
 
 
-export async function updateTitle(id: String, data: String): Promise<void>{
+/**
+ *  A function to update the Title of a Post using the unique post ID within the Mongo database
+ */
+export const updateTitle: RequestHandler = async (req, res, next) => {
+
+    const {postID, data} = req.body as updatePostBody;
 
     try {
-        const post = await PostModel.find({ _id: id });
+        /**
+         * required to have the post id and the new value of the title in order to operate this command
+         */
+        if(!postID || !data){
+            throw new Error("Missing fields");
+        }
+
+        /**
+         * Since the post is being updated, change the previous date value to the value of the most recent update
+         */
+        const date = new Date();
+        
+        /**
+         * To ensure that the post is within the database, since the command will only update, not create 
+         */
+        const post = await PostModel.find({ _id: postID });
+
+        /** 
+         * Length of zero means the post was not found in the database. This is worthy of throwing an error, as the function cannot be completed
+         */
+        if (post.length == 0){
+            throw new Error("Post not found")
+        }
+
+        /**
+         * Update both the title value and the date value of the particular post entry
+         * This is being stored as a newPost value to be sent to the status update, displaying the updated values
+         */
+        const newPost = await PostModel.updateOne({_id: postID}, {$set: {title: data, date: date}});
+
+
+        /**
+         * Send a status update to show the post data has been modified successfully
+         */
+        
+        res.status(201).json({ message: "Post Update Successful", post:newPost});
+
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+
+
+/**
+ *  A function to update the Caption of a Post using the unique post ID within the Mongo database
+ * Follows same format as updateTitle
+ */
+export const updateCaption: RequestHandler = async (req, res, next) => {
+
+    const {postID, data} = req.body as updatePostBody;
+
+    try {
+        /**
+         * required to have the post id and the new value of the caption in order to operate this command
+         */
+        if(!postID || !data){
+            throw new Error("Missing fields");
+        }
+
+        /**
+         * Since the post is being updated, change the previous date value to the value of the most recent update
+         */
+        const date = new Date();
+        
+        /**
+         * To ensure that the post is within the database, since the command will only update, not create 
+         */
+        const post = await PostModel.find({ _id: postID });
+
+        /** 
+         * Length of zero means the post was not found in the database. This is worthy of throwing an error, as the function cannot be completed
+         */
+        if (post.length == 0){
+            throw new Error("Post not found")
+        }
+
+        /**
+         * Update both the title value and the date value of the particular post entry
+         * This is being stored as a newPost value to be sent to the status update, displaying the updated values
+         */
+        const newPost = await PostModel.updateOne({_id: postID}, {$set: {title: data, date: date}});
+
+
+        /**
+         * Send a status update to show the post data has been modified successfully
+         */
+        
+        res.status(201).json({ message: "Post Update Successful", post:newPost});
 
     }
     catch (error) {
