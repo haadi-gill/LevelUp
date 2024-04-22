@@ -44,9 +44,6 @@ export default function PostCard() {
             <div>
                 <p className="text-left my-3 font-semibold">GOAL XP: 10</p>
                 <p className="text-left my-3 text-sm">My goal today is to complete my Introduction to Software Engineering research project!</p>
-                <div className="rounded-xl overflow-hidden">
-                    <img src="https://cdn-eahjn.nitrocdn.com/ChEvwayTHZmZJUAdsUNMLXuXZdBprFoQ/assets/images/optimized/rev-82d6b35/www.spinxdigital.com/app/uploads/2019/05/Infographic-Example-2-1.jpg" alt=""></img>
-                </div>
             </div>
             <div className="mt-5 flex gap-5">
                 <button className="flex gap-2 items-center" onClick={handleLike}>
