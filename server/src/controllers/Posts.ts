@@ -152,7 +152,8 @@ interface updatePostComplete{
 
 /**
  *  A function to update the "done" status of a post 
- * 
+ *  Will need to be accompanied by a call to the user database to update XP
+ * Follows same format as updateTitle
  */
 export const updateCompletion: RequestHandler = async (req, res, next) => {
     const {postID, data} = req.body as updatePostComplete;
@@ -186,6 +187,7 @@ export const updateCompletion: RequestHandler = async (req, res, next) => {
 
 /**
  *  A function to update the "done" status of a post 
+ *  Follows same format as updateTitle
  * 
  */
 export const updateLiked: RequestHandler = async (req, res, next) => {
