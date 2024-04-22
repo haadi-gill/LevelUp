@@ -140,7 +140,7 @@ export const updateCaption: RequestHandler = async (req, res, next) => {
          * Update both the title value and the date value of the particular post entry
          * This is being stored as a newPost value to be sent to the status update, displaying the updated values
          */
-        const newPost = await PostModel.updateOne({_id: postID}, {$set: {title: data, date: date}});
+        const newPost = await PostModel.updateOne({_id: postID}, {$set: {caption: data, date: date}});
 
 
         /**
