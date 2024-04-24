@@ -57,7 +57,7 @@ export default function Home(){
     return(
       <div className="flex mt-4 max-w-9xl mx-auto gap-8">
         <div className="w-1/3">
-          <NavigationCard />
+          <NavigationCard userId={userId} />
         </div>
         <div className="w-2/3">
           <PostFormCard user_id={userId} onPostCreate={fetchUpdatedPosts}/>

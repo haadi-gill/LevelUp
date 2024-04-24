@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import * as PostsApi from "../../network/posts_api";
 import { getPosts, Post } from '@/models/posts'
 import "./Dashboard.css";
 
 
-const Dashboard = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+function Dashboard() {
+
+  
+  const {id} = useParams<string>()
+  const userId = id || 'default'
+
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -123,12 +129,15 @@ const Dashboard = () => {
         <input value={title} onChange={(event) => setTitle(event.target.value) } placeholder="Enter title..." required></input>
         <textarea value={content} onChange={(event) => setContent(event.target.value) } placeholder="Enter note..." required></textarea>
         {selectedNote ? (
-          <div className="FormButtons">
-            <button type="submit"> Save </button>
-            <button onClick={ handleCancel }> Cancel </button>
-          </div>
-        ) : (
-          <button type="submit">Add Note</button>
+          <div className="EditButtons">
+          <button type="submit"> Save </button>
+          <button onClick={ handleCancel }> Cancel </button>
+        </div>
+      ) : (
+        <div className="FormButtons">
+          <button type="submit"> Add task </button>
+          <button> Add image </button>
+        </div>
         )}
       </form>
 
