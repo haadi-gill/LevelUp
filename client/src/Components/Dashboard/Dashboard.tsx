@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import "./Home.css";
+import * as PostsApi from "../../network/posts_api";
+import "./Dashboard.css";
 
 type Note = {
   id: number;
@@ -7,7 +8,7 @@ type Note = {
   content: string;
 };
 
-function Home() {
+function Dashboard() {
   const [notes, setNotes] = useState<Note[]>([]);
 
   const [title, setTitle] = useState("");
@@ -163,4 +164,4 @@ function Home() {
   );
 };
 
-export default Home;
+export default Dashboard;

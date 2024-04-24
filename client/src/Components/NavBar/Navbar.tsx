@@ -1,5 +1,5 @@
 import './Navbar.css';
-import logoIcon from './Assets/LevelUpIcon.png';
+import logoIcon from "../Assets/LevelUpIcon.png";
 
 function Navbar() {
   return (
