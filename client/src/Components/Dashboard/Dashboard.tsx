@@ -140,12 +140,15 @@ function Dashboard() {
         <input value={title} onChange={(event) => setTitle(event.target.value) } placeholder="Enter title..." required></input>
         <textarea value={content} onChange={(event) => setContent(event.target.value) } placeholder="Enter note..." required></textarea>
         {selectedNote ? (
-          <div className="FormButtons">
-            <button type="submit"> Save </button>
-            <button onClick={ handleCancel }> Cancel </button>
-          </div>
-        ) : (
-          <button type="submit">Add Note</button>
+          <div className="EditButtons">
+          <button type="submit"> Save </button>
+          <button onClick={ handleCancel }> Cancel </button>
+        </div>
+      ) : (
+        <div className="FormButtons">
+          <button type="submit"> Add task </button>
+          <button> Add image </button>
+        </div>
         )}
       </form>
 

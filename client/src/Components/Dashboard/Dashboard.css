@@ -83,6 +83,12 @@ h3 {
   transform: translateY(3px);
 }
 
+.EditButtons {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 5px;
+}
+
 .FormButtons {
   display: flex;
   justify-content: space-evenly;
@@ -94,6 +100,15 @@ h3 {
 }
 
 .FormButtons button:last-of-type {
+  background-color: lightblue;
+  color: rgb(108, 108, 108);
+}
+
+.EditButtons button {
+  flex: 1;
+}
+
+.EditButtons button:last-of-type {
   background-color: rgb(242, 157, 0);
   color: rgb(108, 108, 108);
 }
