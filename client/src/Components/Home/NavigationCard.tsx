@@ -2,7 +2,7 @@ import Card from "./Card";
 import icon from "../Assets/IconBlack.ico";
 import { Link } from 'react-router-dom';
 
-export default function NavigationCard() {
+export default function NavigationCard({ userId }: { userId: string}) {
     return (
         <Card>
             <div className="px-4 py-2">
@@ -16,7 +16,7 @@ export default function NavigationCard() {
                     </svg>
                     Home
                 </Link>
-                <Link to="/Dashboard" className="flex gap-3 py-3 hover:bg-indigo-300 -mx-10 px-10 rounded-xl transition-all hover:scale-105 hover:shadow-md shadow-gray-700">
+                <Link to={`/Dashboard/${userId}`} className="flex gap-3 py-3 hover:bg-indigo-300 -mx-10 px-10 rounded-xl transition-all hover:scale-105 hover:shadow-md shadow-gray-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
                     </svg>

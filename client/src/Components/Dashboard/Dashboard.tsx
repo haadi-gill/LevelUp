@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import * as PostsApi from "../../network/posts_api";
 import "./Dashboard.css";
 
@@ -9,6 +10,11 @@ type Note = {
 };
 
 function Dashboard() {
+
+  
+  const {id} = useParams<string>()
+  const userId = id || 'default'
+
   const [notes, setNotes] = useState<Note[]>([]);
 
   const [title, setTitle] = useState("");
