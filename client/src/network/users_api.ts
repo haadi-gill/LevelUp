@@ -47,3 +47,8 @@ export async function login(credentials: LoginCredentials): Promise<User> {
 export async function logout(): Promise<void> {
     await fetchData("/api/users/logout", { method: "POST"});
 }
+
+export async function getUserById(id: string): Promise<User> {
+    const response = await fetchData(`http://localhost:5000/api/users/findbyid/${id}`, { method: "GET"});
+    return response.json();
+}
