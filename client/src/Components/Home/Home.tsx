@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom'
 
 export default function Home(){
 
-    const {id} = useParams()
+    const {id} = useParams<string>()
+    const userId = id || 'default'
     const [posts, setPosts] = useState([])
     useEffect(() => {
         console.log(id)
@@ -18,7 +19,7 @@ export default function Home(){
           <NavigationCard />
         </div>
         <div className="w-2/3">
-          <PostFormCard/>
+          <PostFormCard user_id={userId}/>
           <PostCard/>
           <PostCard/>
           <PostCard/>

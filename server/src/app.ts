@@ -3,10 +3,9 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import userRoutes from "./routes/Users";
 import session from "express-session";
+import postRoutes from "./routes/Posts";
 
 import createHttpError from "http-errors";
-import PostModel from "./models/Post";
-import UserModel from "./models/User";
 import MongoStore from "connect-mongo";
 
 
@@ -20,7 +19,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 60 * 60 * 1000, // 1 hour
+        path: "/",
+        maxAge: 6 * 60 * 60 * 1000, // 6 hours
+        secure: 'auto',
     },
     rolling: true,
     store: MongoStore.create({
@@ -29,10 +30,7 @@ app.use(session({
 }));
 
 app.use("/api/users", userRoutes);
-
-app.use("/", async (req: Request, res: Response) => {
-    res.send("Hello World");
-});
+app.use("/api/posts", postRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     next(Error("Endpoint not found"));
