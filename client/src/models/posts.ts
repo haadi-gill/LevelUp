@@ -5,3 +5,7 @@ export interface Post {
     likes?: [{ userID: string }];
     date: Date;
 }
+
+export interface getPosts {
+    posts: Post[];
+}
