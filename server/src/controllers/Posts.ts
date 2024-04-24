@@ -18,6 +18,11 @@ interface updatePostBody {
     postID?: String,
     data?: String
 }
+interface updatePostBodyFull {
+    postID?: String,
+    title?: String,
+    task?: String
+}
 
 
 export const create: RequestHandler = async (req, res, next) => {
@@ -25,7 +30,7 @@ export const create: RequestHandler = async (req, res, next) => {
     const { title, task, photos, user_id } = req.body as createPostBody;
 
     try {
-        if (!task) {
+        if (!task || !title ) {
             throw new Error("Missing fields");
         }
 
@@ -156,6 +161,41 @@ export const updateCaption: RequestHandler = async (req, res, next) => {
 };
 
 
+/**
+ *  A function to update the Caption of a Post using the unique post ID within the Mongo database
+ * Follows same format as updateTitle
+ */
+export const updateContent: RequestHandler = async (req, res, next) => {
+
+    const {postID, title, task} = req.body as updatePostBodyFull;
+
+    try {
+        
+        if(!postID || !title || !task){
+            throw new Error("Missing fields");
+        }
+
+        const date = new Date();
+        
+        const post = await PostModel.find({ _id: postID });
+
+        if (post.length == 0){
+            throw new Error("Post not found")
+        }
+
+        const newPost = await PostModel.updateOne({_id: postID}, {$set: {title: title, task: task, date: date}});
+
+
+        
+        res.status(201).json({ message: "Post Update Successful", post:newPost});
+
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+
 
 interface updatePostComplete{
     postID?: String,
@@ -239,6 +279,39 @@ export const updateLiked: RequestHandler = async (req, res, next) => {
 
         
         res.status(201).json({ message: "Post Update Successful", post:newPost});
+
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+
+
+
+/**
+ *  A function to update the delete a post
+ * Follows similar format to updateTitle
+ */
+export const deletePost: RequestHandler = async (req, res, next) => {
+    const {postID} = req.body as updatePostComplete;
+
+    try {
+        
+        if(!postID){
+            throw new Error("Missing fields");
+        }
+
+        const post = await PostModel.find({ _id: postID });
+
+        if (post.length == 0){
+            throw new Error("Post not found")
+        }
+
+        const newPost = await PostModel.deleteOne({_id: postID});
+
+        
+        res.status(201).json({ message: "Post Deleted Successfully", post:newPost, oldPost: post});
 
     }
     catch (error) {

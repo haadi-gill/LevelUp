@@ -3,7 +3,7 @@ import * as PostsApi from "../../network/posts_api";
 import "./Dashboard.css";
 
 type Note = {
-  id: number;
+  id: string;
   title: string;
   content: string;
 };
@@ -21,7 +21,7 @@ function Dashboard() {
     const fetchNotes = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/notes"
+          "http://localhost:5000/api/posts/allposts"
         );
 
         const notes: Note[] =
@@ -46,7 +46,7 @@ function Dashboard() {
     event.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5000/api/notes",
+        "http://localhost:5000/api/posts/create",
         {
           method: "POST",
           headers: {
@@ -76,21 +76,25 @@ function Dashboard() {
       return;
     }
 
+    const postID = selectedNote.id;
+
     try {
       const response = await fetch(
-        `http://localhost:5000/api/notes/${selectedNote.id}`,
+        `http://localhost:5000/api/posts/update/content`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            postID,
             title,
             content,
           }),
         }
       );
 
+      
       const updatedNote = await response.json();
 
       const updatedNotesList = notes.map((note) =>
@@ -114,7 +118,7 @@ function Dashboard() {
     setSelectedNote(null);
   };
 
-  async function deleteNote (event: React.MouseEvent, noteId: number) {
+  async function deleteNote (event: React.MouseEvent, noteId: string) {
     event.stopPropagation();
 
     try {
