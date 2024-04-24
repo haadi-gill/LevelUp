@@ -1,5 +1,5 @@
 import { fetchData } from "./fetch";
-import { Post } from "../models/posts";
+import { Post, getPosts } from "../models/posts";
 
 
 export interface createPost {
@@ -20,7 +20,7 @@ export const createPost = async (post: createPost) => {
     return response.json();
 }
 
-export async function getAllPosts(): Promise<Post> {
+export async function getAllPosts(): Promise<getPosts> {
     const response = await fetchData("http://localhost:5000/api/posts/allposts", {
         method: "GET"
     });

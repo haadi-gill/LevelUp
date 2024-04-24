@@ -2,10 +2,58 @@ import { useState, useEffect} from 'react';
 import Card from "./Card";
 import Avatar from "./Avatar";
 import { getAllPosts } from '../../network/posts_api'
+import { Post } from '@/models/posts';
+import * as UsersApi from '../../network/users_api';
 
-export default function PostCard() {
+export default function PostCard({post, id}: {post: Post, id : string}) {
     const [likes, setLikes] = useState(10);
     const [liked, setLiked] = useState(false);
+    const [author, setauthor] = useState("");
+    const [formattedDate, setFormattedDate] = useState("");
+
+    useEffect(() => {
+        const fetchAuthor = async () => {
+            const response = await UsersApi.getUserById(id);
+            console.log(response);
+            setauthor(response.user.username);
+        }
+
+        fetchAuthor();
+        formatPostDate(post.date.toString());
+    }, []);
+
+    const formatPostDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const month = date.toLocaleDateString('en-US', { month: 'long' });
+        const day = date.getDate();
+        const year = date.getFullYear();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const amOrPm = hours >= 12 ? ' PM' : ' AM';
+        const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    
+        // Function to get the day with proper suffix
+        const getDayWithSuffix = (day: number) => {
+            if (day >= 11 && day <= 13) {
+                return `${day}th`;
+            }
+            switch (day % 10) {
+                case 1:
+                    return `${day}st`;
+                case 2:
+                    return `${day}nd`;
+                case 3:
+                    return `${day}rd`;
+                default:
+                    return `${day}th`;
+            }
+        };
+    
+        const formatted = `${month} ${getDayWithSuffix(day)}, ${year} ${formattedHours}:${formattedMinutes}${amOrPm}`;
+        setFormattedDate(formatted);
+    };
+    
 
     const handleLike = () => {
         if (!liked) {
@@ -28,16 +76,17 @@ export default function PostCard() {
                             <Avatar />
                         </div>
                         <p>
-                            <a className="font-semibold">John Doe</a> shared a goal.
+                            <a className="font-semibold">{author}</a> shared a goal.
                         </p>
-                        <p className="text-gray-500 text-sm text-left">2 Hours Ago</p>
+                        <p className="text-gray-500 text-sm text-left">{formattedDate}</p>
                     </button>
                 </div>
             </div>
             <div>
-                <p className="text-left my-3 font-semibold">Software Engineering Research Project</p>
-                <p className="text-left my-3 text-sm">My goal today is to complete my Introduction to Software Engineering research project which involves an infographic!</p>
-                <p className="text-left my-3 text-xs font-semibold">GOAL XP: 10</p>
+                <p className="text-left my-3 text-xl font-semibold">Software Engineering Research Project</p>
+                <p className="text-left my-3 text-m">{post.task}</p>
+                <p className="text-left my-3 text-l font-semibold">GOAL XP: 10</p>
+                <img src={post.imageURL}/>
             </div>
             <div className="mt-5 flex gap-5">
                 <button className="flex gap-2 items-center" onClick={handleLike}>
