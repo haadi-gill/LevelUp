@@ -5,12 +5,13 @@ import { useForm } from 'react-hook-form'
 import { createPost } from '../../network/posts_api'
 import * as PostsApi from '../../network/posts_api'
 
-export default function PostFormCard( props : {user_id: string}){
+export default function PostFormCard( props : {user_id: string, onPostCreate: () => void}){
 
     const { register, handleSubmit, reset, watch, setValue, formState: { errors, isSubmitting } } = useForm({
         defaultValues: {
             task: "",
-            photos: ""
+            photos: "",
+            title:""
         }
     });
 
@@ -19,6 +20,7 @@ export default function PostFormCard( props : {user_id: string}){
             createPostInfo.user_id = props.user_id;
             const response = await PostsApi.createPost(createPostInfo);
             console.log(response);
+            props.onPostCreate();
         } catch (error) {
             if (error instanceof Error) {
                 alert(error.message);
@@ -39,15 +41,25 @@ export default function PostFormCard( props : {user_id: string}){
     return (
         <Card>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex gap-2 mb-3">
+                <div className="flex flex-col gap-2 mb-3 p-2">
                     <div>
                         <Avatar />
+                        <p className="text-left my-3 text-xl font-semibold">Create a New Post</p>
                     </div>
-                    <textarea
-                        {...register('task', { required: 'Task description is required' })}
-                        className="grow p-3 h-17"
-                        placeholder="What is your next task? Let's LevelUp!"
-                    />
+                    <div className="border border-black rounded-m">
+                        <input
+                            {...register('title', { required: 'Title is required' })}
+                            className="p-5 h-7 w-full"
+                            placeholder="Please title your task!"
+                        />
+                    </div>
+                    <div className="border border-black rounded-md">
+                        <textarea
+                            {...register('task', { required: 'Task description is required' })}
+                            className="p-3 h-14 w-full"
+                            placeholder="What is your next task? Let's LevelUp!"
+                        />
+                    </div>
                     {errors.task && <p className="error">{errors.task.message}</p>}
                 </div>
                 <div className="flex gap-5 items-center mt-2 pl-1">
