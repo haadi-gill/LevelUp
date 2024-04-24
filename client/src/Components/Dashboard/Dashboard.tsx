@@ -1,33 +1,25 @@
 import { useEffect, useState } from "react";
 import * as PostsApi from "../../network/posts_api";
+import { getPosts, Post } from '@/models/posts'
 import "./Dashboard.css";
 
-type Note = {
-  id: string;
-  title: string;
-  content: string;
-};
 
-function Dashboard() {
-  const [notes, setNotes] = useState<Note[]>([]);
+const Dashboard = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const [selectedNote, setSelectedNote] =
-    useState<Note | null>(null);
+    useState<Post | null>(null);
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/posts/allposts"
-        );
+        const response = await PostsApi.getAllPosts(); 
+        console.log(response)
+        setPosts(response.posts);
 
-        const notes: Note[] =
-          await response.json();
-
-        setNotes(notes);
       } catch (e) {
         console.log(e);
       }
@@ -36,32 +28,19 @@ function Dashboard() {
     fetchNotes();
   }, []);
 
-  function handleNoteClick (note: Note) {
+  function handleNoteClick (note: Post) {
     setSelectedNote(note);
     setTitle(note.title);
-    setContent(note.content);
+    setContent(note.task);
   };
 
   async function handleAddNote (event: React.FormEvent) {
     event.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/posts/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title,
-            content,
-          }),
-        }
-      );
+     
+      const postInfo = {title:title, task:content};
 
-      const newNote = await response.json();
-
-      setNotes([newNote, ...notes]);
+      setPosts([newNote, ...posts]);
       setTitle("");
       setContent("");
     } catch (e) {
@@ -97,13 +76,13 @@ function Dashboard() {
       
       const updatedNote = await response.json();
 
-      const updatedNotesList = notes.map((note) =>
+      const updatedNotesList = posts.map((note) =>
         note.id === selectedNote.id
           ? updatedNote
           : note
       );
 
-      setNotes(updatedNotesList);
+      setPosts(updatedNotesList);
       setTitle("");
       setContent("");
       setSelectedNote(null);
@@ -128,11 +107,11 @@ function Dashboard() {
           method: "DELETE",
         }
       );
-      const updatedNotes = notes.filter(
+      const updatedNotes = posts.filter(
         (note) => note.id !== noteId
       );
 
-      setNotes(updatedNotes);
+      setPosts(updatedNotes);
     } catch (e) {
       console.log(e);
     }
@@ -154,13 +133,13 @@ function Dashboard() {
       </form>
 
       <div className="NotesList">
-        {notes.map((note) => (
+        {posts.map((note) => (
           <div key={ note.id } className="Note" onClick={ () => handleNoteClick(note) }>
             <div className="NoteHeader">
               <button onClick={(event) => deleteNote(event, note.id) }> X </button>
             </div>
             <h3>{note.title}</h3>
-            <p>{note.content}</p>
+            <p>{note.task}</p>
           </div>
         ))}
       </div>
