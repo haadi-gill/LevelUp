@@ -41,11 +41,11 @@ export default function PostFormCard( props : {user_id: string, onPostCreate: ()
     return (
         <Card>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col gap-2 mb-3 p-2">
-                    <div>
+                    <div className="flex gap-2 items-center">
                         <Avatar />
-                        <p className="text-left my-3 text-xl font-semibold">Create a New Post</p>
+                        <p className="text-left my-3 text-l font-bold">Create a New Post</p>
                     </div>
+                <div className="flex flex-col gap-2 mb-3 p-2">
                     <div className="border border-black rounded-m">
                         <input
                             {...register('title', { required: 'Title is required' })}

@@ -83,7 +83,7 @@ export default function PostCard({post, id}: {post: Post, id : string}) {
                 </div>
             </div>
             <div>
-                <p className="text-left my-3 text-xl font-semibold">Software Engineering Research Project</p>
+                <p className="text-left my-3 text-xl font-semibold">EXAMPLE TITLE</p>
                 <p className="text-left my-3 text-m">{post.task}</p>
                 <p className="text-left my-3 text-l font-semibold">GOAL XP: 10</p>
                 <img src={post.imageURL}/>
