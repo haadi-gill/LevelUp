@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
     author: String,
+    title: String,
     task: String,
     caption: String,
     date: Date,

@@ -1,7 +1,6 @@
 import { useState, useEffect} from 'react';
 import Card from "./Card";
 import Avatar from "./Avatar";
-import { getAllPosts } from '../../network/posts_api'
 import { Post } from '@/models/posts';
 import * as UsersApi from '../../network/users_api';
 
@@ -83,7 +82,7 @@ export default function PostCard({post, id}: {post: Post, id : string}) {
                 </div>
             </div>
             <div>
-                <p className="text-left my-3 text-xl font-semibold">Software Engineering Research Project</p>
+                <p className="text-left my-3 text-xl font-semibold">{post.title}</p>
                 <p className="text-left my-3 text-m">{post.task}</p>
                 <p className="text-left my-3 text-l font-semibold">GOAL XP: 10</p>
                 <img src={post.imageURL}/>

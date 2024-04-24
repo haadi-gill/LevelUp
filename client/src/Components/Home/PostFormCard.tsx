@@ -1,6 +1,5 @@
 import Card from './Card'
 import Avatar from './Avatar'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createPost } from '../../network/posts_api'
 import * as PostsApi from '../../network/posts_api'
@@ -53,6 +52,7 @@ export default function PostFormCard( props : {user_id: string, onPostCreate: ()
                             placeholder="Please title your task!"
                         />
                     </div>
+                    {errors.title && <p className="error">{errors.title.message}</p>}
                     <div className="border border-black rounded-md">
                         <textarea
                             {...register('task', { required: 'Task description is required' })}

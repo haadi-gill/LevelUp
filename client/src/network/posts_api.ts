@@ -3,6 +3,7 @@ import { Post, getPosts } from "../models/posts";
 
 
 export interface createPost {
+    title: string;
     task: string;
     photos?: string;
     user_id?: string;
