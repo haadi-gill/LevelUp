@@ -8,10 +8,9 @@ const PostSchema = new Schema({
     caption: String,
     date: Date,
     imageURL: String,
+    complete: Boolean,
     likes: [
-        {
-            userID: String
-        }
+        String
     ]/**,
     comments: [
         {
