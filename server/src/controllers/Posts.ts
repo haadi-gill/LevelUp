@@ -22,7 +22,7 @@ interface updatePostBody {
 
 export const create: RequestHandler = async (req, res, next) => {
 
-    const { task, photos, user_id } = req.body as createPostBody;
+    const { title, task, photos, user_id } = req.body as createPostBody;
 
     try {
         if (!task) {
@@ -36,7 +36,7 @@ export const create: RequestHandler = async (req, res, next) => {
         const imageURL = photos;
 
         const complete = false;
-        const post = await PostModel.create({ author, task, date, imageURL, likes });
+        const post = await PostModel.create({ title, author, task, date, imageURL, likes });
 
         res.status(201).json({ message: "Post created successfully", post: post });
 
