@@ -11,7 +11,7 @@ function Dashboard() {
   const {id} = useParams<string>()
   const userId = id || 'default'
 
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -44,9 +44,16 @@ function Dashboard() {
     event.preventDefault();
     try {
      
-      const postInfo = {title:title, task:content};
+      const createPostInfo = {title:title, task:content, user_id:userId};
 
-      setPosts([newNote, ...posts]);
+      
+      const response = await PostsApi.createPost(createPostInfo);
+      console.log(response);
+
+
+      const postReponse = await PostsApi.getAllPosts();
+      setPosts(postReponse.posts);
+
       setTitle("");
       setContent("");
     } catch (e) {
