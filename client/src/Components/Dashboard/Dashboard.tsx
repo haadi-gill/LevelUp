@@ -100,7 +100,8 @@ function Dashboard() {
       console.log("Note ID below:")
       console.log(noteId);
       console.log("Note ID above:")
-      await PostsApi.deletePost(noteId);
+      const deleteResponse = await PostsApi.deletePost({postID:noteId});
+      console.log(deleteResponse)
 
       const postResponse = await PostsApi.getAllPosts();
 
@@ -131,9 +132,9 @@ function Dashboard() {
 
       <div className="NotesList">
         {posts.map((note) => (
-          <div key={ note.id } className="Note" onClick={ () => handleNoteClick(note) }>
+          <div key={ note._id } className="Note" onClick={ () => handleNoteClick(note) }>
             <div className="NoteHeader">
-              <button onClick={(event) => deleteNote(event, note.id) }> X </button>
+              <button onClick={(event) => deleteNote(event, note._id) }> X </button>
             </div>
             <h3>{note.title}</h3>
             <p>{note.task}</p>

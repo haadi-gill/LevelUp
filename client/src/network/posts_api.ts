@@ -14,6 +14,9 @@ export interface updatePost {
     title: string;
     task: string;
 }
+export interface deletePost {
+    postID: string;
+}
 
 export const createPost = async (post: createPost) => {
     const response = await fetchData("http://localhost:5000/api/posts/create", {
@@ -39,15 +42,15 @@ export const updatePost = async (post: updatePost) => {
     return response.json();
 }
 
-export const deletePost = async (postID: string) => {
-    const response = await fetchData("http://localhost:5000/api/posts/delete", {
-        method: "DELETE",
+export const deletePost = async (post: deletePost) => {
+    
+    const response = await fetch("http://localhost:5000/api/posts/delete", {
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(postID)
+        body: JSON.stringify(post)
     });
-
     return response.json();
 }
 

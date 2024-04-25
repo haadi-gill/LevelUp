@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import PostModel from "../models/Post";
+import {ObjectId} from 'mongodb';
 
 
 interface createPostBody {
@@ -198,10 +199,13 @@ export const updateContent: RequestHandler = async (req, res, next) => {
 
 
 interface updatePostComplete{
-    postID?: String,
+    postID?: string,
     data?: Boolean
 }
 
+interface deletePost{
+    postID?: string
+}
 
 
 /**
@@ -294,7 +298,8 @@ export const updateLiked: RequestHandler = async (req, res, next) => {
  * Follows similar format to updateTitle
  */
 export const deletePost: RequestHandler = async (req, res, next) => {
-    const {postID} = req.body as updatePostComplete;
+    
+    const {postID} = req.body as deletePost;
 
     try {
         
@@ -307,14 +312,15 @@ export const deletePost: RequestHandler = async (req, res, next) => {
         if (post.length == 0){
             throw new Error("Post not found")
         }
-
-        const newPost = await PostModel.deleteOne({_id: postID});
-
+        console.log("Post found")
+        const newPost = await PostModel.deleteOne({_id: new ObjectId(postID)});
+        console.log("Post deleted")
         
         res.status(201).json({ message: "Post Deleted Successfully", post:newPost, oldPost: post});
 
     }
     catch (error) {
+        console.error(error)
         next(error);
     }
 };
