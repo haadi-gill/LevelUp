@@ -92,3 +92,16 @@ export async function updateLikes(params: updateLiked): Promise<getPostAfterUpda
 
     return response.json();
 }
+
+export async function updateCompletion(params: updateLiked): Promise<getPostAfterUpdate> {
+
+    const response = await fetchData("http://localhost:5000/api/posts/update/complete", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postID: params.postID, data: params.data, userID: params.userID})
+    });
+
+    return response.json();
+}
