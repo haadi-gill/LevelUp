@@ -61,8 +61,8 @@ export default function Home(){
         </div>
         <div className="w-2/3">
           <PostFormCard user_id={userId} onPostCreate={fetchUpdatedPosts}/>
-          {posts.length > 0 && sortPostsByDate(posts).map((post, index) => (
-                    <PostCard key={index} post={post} id={userId} />
+          {posts.length > 0 && sortPostsByDate(posts).map((post) => (
+                    <PostCard key={post._id} post={post} id={userId} />
                 ))}
         </div>
       </div>
