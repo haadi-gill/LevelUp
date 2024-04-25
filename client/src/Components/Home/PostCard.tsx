@@ -102,6 +102,9 @@ export default function PostCard({post, id,  }: {post: Post, id : string}) {
                             <a className="font-semibold">{author}</a> shared a goal.
                         </p>
                         <p className="text-gray-500 text-sm text-left">{formattedDate}</p>
+                        <p className={`text-m ${post.complete ? 'text-green-500' : 'text-red-500'}`}>
+                        {post.complete ? 'Goal Complete!' : 'Goal Not Complete!'}
+                        </p>
                     </button>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import * as PostsApi from "../../network/posts_api";
 import NavigationCard from '../Home/NavigationCard'
 import { getPosts, Post } from '@/models/posts'
+import { updateLiked } from '@/models/posts'
 import "./Dashboard.css";
 
 
@@ -20,7 +21,27 @@ function Dashboard() {
   const [selectedNote, setSelectedNote] =
     useState<Post | null>(null);
 
-  useEffect(() => {
+    const handleCompletion = async (e: React.ChangeEvent<HTMLInputElement>, note: Post) => {
+      const isChecked = e.target.checked; 
+      const postId = note._id;
+      const params: updateLiked = {
+        userID: userId,
+        postID: postId,
+        data: isChecked
+      };// Get the new checked state
+      try {
+          const response = await PostsApi.updateCompletion(params);
+          console.log(response);
+          fetchNotes();
+      }  catch (error) {
+      if (error instanceof Error) {
+          alert(error.message);
+          console.error(error.message);
+      } else {
+          console.error("An unexpected error occurred.");
+      }
+    }}
+
     const fetchNotes = async () => {
       try {
         const response = await PostsApi.getMyPosts(userId); 
@@ -32,6 +53,7 @@ function Dashboard() {
       }
     };
 
+  useEffect(() => {
     fetchNotes();
   }, []);
 
@@ -140,7 +162,13 @@ function Dashboard() {
               <div className="NoteHeader">
                 <button onClick={(event) => deleteNote(event, note._id)}>X</button>
               </div>
-              <input type="checkbox" className=""/>
+              <input 
+                  type="checkbox" 
+                  className="" 
+                  onChange={(e) => handleCompletion(e, note)} 
+                  checked={note.complete} 
+              />
+
               <h3>{note.title}</h3>
               <p>{note.task}</p>
             </div>

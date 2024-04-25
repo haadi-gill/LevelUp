@@ -6,6 +6,7 @@ export interface Post {
     imageURL?: string;
     likes: string[];
     date: Date;
+    complete: boolean;
 }
 
 export interface getPostAfterUpdate {
@@ -21,5 +22,5 @@ export interface getPosts {
 export interface updateLiked {
     postID: string;
     userID: string;
-    data?: string;
+    data?: boolean;
 }

@@ -46,7 +46,7 @@ export const create: RequestHandler = async (req, res, next) => {
 
         const imageURL = photos;
         const complete = false;
-        const post = await PostModel.create({ title, author, task, date, imageURL, likes });
+        const post = await PostModel.create({ title, author, task, date, imageURL, likes, complete });
 
         res.status(201).json({ message: "Post created successfully", post: post });
 
@@ -205,7 +205,7 @@ export const updateContent: RequestHandler = async (req, res, next) => {
 
 
 interface updatePostComplete{
-    postID?: string,
+    postID: string,
     userID: string,
     data?: Boolean
 }
@@ -230,17 +230,13 @@ export const updateCompletion: RequestHandler = async (req, res, next) => {
         }
 
         const date = new Date();
-        
-        const post = await PostModel.find({ _id: postID });
 
-        if (post.length == 0){
-            throw new Error("Post not found")
-        }
+        await PostModel.updateOne({_id: postID}, {$set: {complete: data, date_completed: date}});
 
-        const newPost = await PostModel.updateOne({_id: postID}, {$set: {complete: data, date: date}});
+        const updatedPost = await PostModel.findById(postID);
 
         
-        res.status(201).json({ message: "Post Update Successful", post:newPost, oldPost: post});
+        res.status(201).json({ message: "Post Update Successful", updatedPost: updatedPost});
 
     }
     catch (error) {

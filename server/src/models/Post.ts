@@ -8,6 +8,7 @@ const PostSchema = new Schema({
     task: String,
     caption: String,
     date: Date,
+    date_completed: Date,
     imageURL: String,
     complete: Boolean,
     likes: [
