@@ -9,3 +9,7 @@ export interface User {
     user: UserBody;
 }
 
+export interface logoutMessage {
+    message: string;
+}
+

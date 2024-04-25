@@ -1,4 +1,4 @@
-import { User } from '../models/user';
+import { User, logoutMessage } from '../models/user';
 import { fetchData } from './fetch';
 
 export async function getLoggedInUser(): Promise<User> {
@@ -44,8 +44,10 @@ export async function login(credentials: LoginCredentials): Promise<User> {
     return response.json();
 }
 
-export async function logout(): Promise<void> {
-    await fetchData("/api/users/logout", { method: "POST"});
+export async function logout(): Promise<logoutMessage> {
+    const response = await fetchData("http://localhost:5000/api/users/logout", { method: "POST"});
+
+    return response.json();
 }
 
 export async function getUserById(id: string): Promise<User> {

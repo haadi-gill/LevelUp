@@ -3,20 +3,21 @@ import PostModel from "../models/Post";
 
 
 interface createPostBody {
-    task?: String,
-    photos?: String,
-    author?: String,
-    title?: String,
-    caption?: String,
+    task?: string,
+    photos?: string,
+    author?: string,
+    title?: string,
+    caption?: string,
     date? : Date,
     complete?: boolean,
-    likes? : [{userID:String}]
-    user_id?: String
+    likes? : string[],
+    user_id?: string
 }; 
 
 interface updatePostBody {
-    postID?: String,
-    data?: String
+    userID?: string,
+    postID?: string,
+    data?: string
 }
 
 
@@ -25,16 +26,17 @@ export const create: RequestHandler = async (req, res, next) => {
     const { title, task, photos, user_id } = req.body as createPostBody;
 
     try {
-        if (!task) {
+        if (!task || !user_id || !title) {
             throw new Error("Missing fields");
         }
 
         const author = user_id;
         console.log(req.session);
         const date = new Date();
-        const likes: { userID: string }[] = [];
-        const imageURL = photos;
+        const likes = [];
+        likes.push(author);
 
+        const imageURL = photos;
         const complete = false;
         const post = await PostModel.create({ title, author, task, date, imageURL, likes });
 
@@ -158,7 +160,8 @@ export const updateCaption: RequestHandler = async (req, res, next) => {
 
 
 interface updatePostComplete{
-    postID?: String,
+    postID?: string,
+    userID: string,
     data?: Boolean
 }
 
@@ -205,7 +208,7 @@ export const updateCompletion: RequestHandler = async (req, res, next) => {
  * 
  */
 export const updateLiked: RequestHandler = async (req, res, next) => {
-    const {postID} = req.body as updatePostComplete;
+    const {postID, userID} = req.body as updatePostComplete;
 
     try {
         
@@ -213,7 +216,6 @@ export const updateLiked: RequestHandler = async (req, res, next) => {
             throw new Error("Missing fields");
         }
 
-        const date = new Date();
         
         const post = await PostModel.find({ _id: postID });
 
@@ -221,24 +223,24 @@ export const updateLiked: RequestHandler = async (req, res, next) => {
             throw new Error("Post not found")
         }
 
-        const userId = req.session.userId?.toString();
         let likes = post[0].likes;
-
 
         /** 
          * automatically handle either adding to likes if not there or removing if it is
          */
-        if(likes.includes(userId!)){
-            likes = likes.filter(item => item !== userId!);
+        if(likes.includes(userID!)){
+            likes = likes.filter(item => item !== userID!);
         }else{
-            likes.push(userId!);
+            likes.push(userID!);
         }
 
 
-        const newPost = await PostModel.updateOne({_id: postID}, {$set: {likes: likes, date: date}});
+        await PostModel.updateOne({_id: postID}, {$set: {likes: likes}});
+
+        const updatedPost = await PostModel.findById(postID);
 
         
-        res.status(201).json({ message: "Post Update Successful", post:newPost});
+        res.status(201).json({ message: "Post Update Successful", post: updatedPost});
 
     }
     catch (error) {

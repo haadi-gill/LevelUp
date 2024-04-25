@@ -1,18 +1,23 @@
 import { useState, useEffect} from 'react';
 import Card from "./Card";
 import Avatar from "./Avatar";
-import { Post } from '@/models/posts';
+import { Post, updateLiked } from '@/models/posts';
 import * as UsersApi from '../../network/users_api';
+import * as PostsApi from '../../network/posts_api';
 
-export default function PostCard({post, id}: {post: Post, id : string}) {
-    const [likes, setLikes] = useState(10);
-    const [liked, setLiked] = useState(false);
+export default function PostCard({post, id,  }: {post: Post, id : string}) {
+    const [likes, setLikes] = useState<number>(post.likes.length);
+    const isLiked = post.likes.includes(id);
+    const [liked, setLiked] = useState(isLiked);
     const [author, setauthor] = useState("");
     const [formattedDate, setFormattedDate] = useState("");
 
+
     useEffect(() => {
+        console.log(post);
+        
         const fetchAuthor = async () => {
-            const response = await UsersApi.getUserById(id);
+            const response = await UsersApi.getUserById(post.author);
             console.log(response);
             setauthor(response.user.username);
         }
@@ -53,15 +58,34 @@ export default function PostCard({post, id}: {post: Post, id : string}) {
         setFormattedDate(formatted);
     };
     
+    const updatedLikes = async () => {
+        const params: updateLiked = {
+            userID: id,
+            postID: post._id,
+        };
 
-    const handleLike = () => {
+        try {
+            const response = await PostsApi.updateLikes(params);
+            console.log(response);
+            setLikes(response.post.likes.length);
+        } catch (error) {
+            if (error instanceof Error) {
+                alert(error.message);
+                console.error(error.message);
+            } else {
+                console.error("An unexpected error occurred.");
+            }
+        }
+    }
+
+    const  handleLike = async () => {
+        setLiked(!liked); // Toggle the 'liked' state
         if (!liked) {
-            setLikes(likes + 1); 
-            setLiked(true);
+            setLikes(likes + 1);
         } else {
             setLikes(likes - 1);
-            setLiked(false);
         }
+        updatedLikes(); // Call updateLikes regardless of current state to sync with server
     };
 
     
