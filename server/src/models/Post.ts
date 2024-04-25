@@ -1,13 +1,24 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
-const objectId = Schema.Types.ObjectId;
 
 const PostSchema = new Schema({
-    author: objectId,
+    author: String,
     title: String,
-    body: String,
+    task: String,
+    caption: String,
     date: Date,
+    imageURL: String,
+    complete: Boolean,
+    likes: [
+        String
+    ]/**,
+    comments: [
+        {
+            userID: String,
+            comment: String
+        }
+    ] */
 }); 
 
 

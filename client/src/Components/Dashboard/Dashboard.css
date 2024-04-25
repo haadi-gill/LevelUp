@@ -1,0 +1,114 @@
+body {
+  background: url("../Assets/background.jpg") center no-repeat fixed;
+}
+
+.Home {
+  margin: 30px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+}
+
+.NotesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: minmax(250px, auto);
+  gap: 20px;
+}
+
+.Note {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.NoteHeader {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.NoteHeader button {
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  max-width: fit-content;
+}
+
+h3 {
+  margin: 0;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Form input {
+  border-radius: 15px;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.Form textarea {
+  border-radius: 15px;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 16px;
+  height: 200px;
+}
+
+.Form button {
+  border-radius: 15px;
+  background-color: rgb(216, 216, 0);
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(108, 108, 108);
+}
+
+.Form button:hover {
+  background-color: rgb(187, 187, 0);
+  cursor: pointer;
+}
+
+.Form button:active {
+  transform: translateY(3px);
+}
+
+.EditButtons {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 5px;
+}
+
+.FormButtons {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 5px;
+}
+
+.FormButtons button {
+  flex: 1;
+}
+
+.FormButtons button:last-of-type {
+  background-color: lightblue;
+  color: rgb(108, 108, 108);
+}
+
+.EditButtons button {
+  flex: 1;
+}
+
+.EditButtons button:last-of-type {
+  background-color: rgb(242, 157, 0);
+  color: rgb(108, 108, 108);
+}

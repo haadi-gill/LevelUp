@@ -17,6 +17,7 @@ const Login = () => {
     async function onSubmit(credentials: LoginCredentials) {
         try {
             const response = await UsersApi.login(credentials);
+            console.log(response);
             setUserId(response.user._id);
             setIsLoggedIn(true);
         } catch (error) {

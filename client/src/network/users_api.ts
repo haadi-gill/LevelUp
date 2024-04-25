@@ -1,15 +1,5 @@
-import { User } from '../models/user';
-
-async function fetchData(input: RequestInfo, init?: RequestInit): Promise<Response> {
-    const response = await fetch(input, init);
-    if (response.ok) {
-        return response;
-    } else {
-        const errorbody = await response.json();
-        const errormessage = errorbody.message;
-        throw Error(errormessage);
-}
-}
+import { User, logoutMessage } from '../models/user';
+import { fetchData } from './fetch';
 
 export async function getLoggedInUser(): Promise<User> {
     const response = await fetchData("http://localhost:5000/api/users", { method: "GET"});
@@ -54,6 +44,13 @@ export async function login(credentials: LoginCredentials): Promise<User> {
     return response.json();
 }
 
-export async function logout(): Promise<void> {
-    await fetchData("/api/users/logout", { method: "POST"});
+export async function logout(): Promise<logoutMessage> {
+    const response = await fetchData("http://localhost:5000/api/users/logout", { method: "POST"});
+
+    return response.json();
+}
+
+export async function getUserById(id: string): Promise<User> {
+    const response = await fetchData(`http://localhost:5000/api/users/findbyid/${id}`, { method: "GET"});
+    return response.json();
 }

@@ -89,6 +89,10 @@ export const login: RequestHandler = async (req, res, next) => {
 
         res.status(201).json({ message: "Login successful", user: user });
 
+        req.session.save();
+
+        console.log(req.session);
+
     }
     catch (error) {
         next(error);
@@ -105,6 +109,23 @@ export const logout: RequestHandler = async (req, res, next) => {
                 res.status(200).json({ message: "Logout successful" });
             }
         });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+export const findById: RequestHandler = async (req, res, next) => {
+    const id = req.params.id;
+
+    try {
+        const user = await UserModel.findById(id).exec();
+
+        if (!user) {
+            throw createHttpError(404, "User not found");
+        }
+
+        res.status(200).json({ user: user });
     }
     catch (error) {
         next(error);

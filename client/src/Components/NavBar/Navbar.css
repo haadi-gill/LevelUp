@@ -1,0 +1,70 @@
+#Navbar {
+  height: 60px;
+  margin: auto;
+  background-color: black;
+  padding-left: 27px;
+  padding-right: 27px;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+#feed {
+  margin-left: 95px;
+  color: white;
+  cursor: pointer;
+}
+
+#logo-icon {
+  margin-top: 10px;
+  width: 40px;
+  cursor: pointer;
+}
+
+#logo-icon:active {
+    transform: scale(0.9);
+}
+
+#logout-button {
+  float: right;
+  margin-top: 17px;
+}
+
+#bar {
+  background-color: white;
+  color: white;
+  float: right;
+  position: relative;
+  margin-right: 50px;
+  margin-top: 15px;
+  width: 200px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+#progress {
+  position: absolute;
+  border-radius: 15px;
+  overflow: hidden;
+  animation: myfirst 3s;
+  top: 0;
+  animation-fill-mode: forwards;
+  background-image: linear-gradient(to right, yellow , orange);
+}
+
+@keyframes myfirst {
+    0% {
+    width: 0%;
+  }
+
+  25% {
+    width: 0%;
+  }
+
+  50% {
+    width: 0%;
+  }
+
+  100% {
+    width: 50%;
+  }
+}
