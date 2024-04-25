@@ -140,6 +140,7 @@ function Dashboard() {
               <div className="NoteHeader">
                 <button onClick={(event) => deleteNote(event, note._id)}>X</button>
               </div>
+              <input type="checkbox" className=""/>
               <h3>{note.title}</h3>
               <p>{note.task}</p>
             </div>
