@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as PostsApi from "../../network/posts_api";
+import NavigationCard from '../Home/NavigationCard'
 import { getPosts, Post } from '@/models/posts'
 import "./Dashboard.css";
 
@@ -113,36 +114,41 @@ function Dashboard() {
   };
 
   return (
-    <div className="Home">
-      <form className="Form" onSubmit={ (event) => selectedNote ? handleUpdateNote(event) : handleAddNote(event) }>
-        <input value={title} onChange={(event) => setTitle(event.target.value) } placeholder="Enter title..." required></input>
-        <textarea value={content} onChange={(event) => setContent(event.target.value) } placeholder="Enter note..." required></textarea>
-        {selectedNote ? (
-          <div className="EditButtons">
-          <button type="submit"> Save </button>
-          <button onClick={ handleCancel }> Cancel </button>
-        </div>
-      ) : (
-        <div className="FormButtons">
-          <button type="submit"> Add task </button>
-          <button> Add image </button>
-        </div>
-        )}
-      </form>
-
-      <div className="NotesList">
-        {posts.map((note) => (
-          <div key={ note._id } className="Note" onClick={ () => handleNoteClick(note) }>
-            <div className="NoteHeader">
-              <button onClick={(event) => deleteNote(event, note._id) }> X </button>
+    <div className="Home flex mt-4 max-w-9xl mx-auto gap-8">
+      <div className="w-1/3">
+        <NavigationCard userId={userId} />
+      </div>
+      <div className="w-2/3">
+        <form className="Form" onSubmit={selectedNote ? handleUpdateNote : handleAddNote}>
+          <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Enter title..." required />
+          <textarea value={content} onChange={(event) => setContent(event.target.value)} placeholder="Enter note..." required />
+          {selectedNote ? (
+            <div className="EditButtons">
+              <button type="submit">Save</button>
+              <button onClick={handleCancel}>Cancel</button>
             </div>
-            <h3>{note.title}</h3>
-            <p>{note.task}</p>
-          </div>
-        ))}
+          ) : (
+            <div className="FormButtons">
+              <button type="submit">Add task</button>
+              <button>Add image</button>
+            </div>
+          )}
+        </form>
+        <div className="NotesList mt-7">
+          {posts.map((note) => (
+            <div key={note._id} className="Note" onClick={() => handleNoteClick(note)}>
+              <div className="NoteHeader">
+                <button onClick={(event) => deleteNote(event, note._id)}>X</button>
+              </div>
+              <h3>{note.title}</h3>
+              <p>{note.task}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
+  
 };
 
 export default Dashboard;
