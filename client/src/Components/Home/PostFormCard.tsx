@@ -41,9 +41,9 @@ export default function PostFormCard( props : {user_id: string, onPostCreate: ()
         <Card>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-2 mb-3 p-2">
-                    <div>
+                    <div className= "flex gap-3">
                         <Avatar />
-                        <p className="text-left my-3 text-xl font-semibold">Create a New Post</p>
+                        <p className="text-left my-3 text-xl font-semibold mt-2">Create a New Post</p>
                     </div>
                     <div className="border border-black rounded-m">
                         <input
