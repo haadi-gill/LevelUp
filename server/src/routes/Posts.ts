@@ -11,6 +11,6 @@ router.post("/update/content", PostsController.updateContent);
 router.post("/update/caption", PostsController.updateCaption);
 router.post("/update/complete", PostsController.updateCompletion);
 router.post("/update/likes", PostsController.updateLiked);
-router.post("/delete", PostsController.deletePost);
+router.delete("/delete", PostsController.deletePost);
 
 export default router;

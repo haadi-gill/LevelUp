@@ -68,34 +68,17 @@ function Dashboard() {
       return;
     }
 
-    const postID = selectedNote.id;
+    const postID = selectedNote._id;
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/posts/update/content`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            postID,
-            title,
-            content,
-          }),
-        }
-      );
+      const updatedContent = {postID:postID, title:title, task:content}
+     
+      const updateResponse = await PostsApi.updatePost(updatedContent);
 
+            
+      const postReponse = await PostsApi.getAllPosts();
+      setPosts(postReponse.posts);
       
-      const updatedNote = await response.json();
-
-      const updatedNotesList = posts.map((note) =>
-        note.id === selectedNote.id
-          ? updatedNote
-          : note
-      );
-
-      setPosts(updatedNotesList);
       setTitle("");
       setContent("");
       setSelectedNote(null);
@@ -115,13 +98,13 @@ function Dashboard() {
 
     try {
       await fetch(
-        `http://localhost:5000/api/notes/${noteId}`,
+        `http://localhost:5000/api/posts/delete`,
         {
           method: "DELETE",
         }
       );
       const updatedNotes = posts.filter(
-        (note) => note.id !== noteId
+        (note) => note._id !== noteId
       );
 
       setPosts(updatedNotes);

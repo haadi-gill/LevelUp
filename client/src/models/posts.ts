@@ -5,7 +5,7 @@ export interface Post {
     imageURL?: string;
     likes?: [{ userID: string }];
     date: Date;
-    id: String;
+    _id: string;
 }
 
 export interface getPosts {

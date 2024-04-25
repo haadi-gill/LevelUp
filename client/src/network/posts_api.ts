@@ -9,8 +9,26 @@ export interface createPost {
     user_id?: string;
 }
 
+export interface updatePost {
+    postID: string;
+    title: string;
+    task: string;
+}
+
 export const createPost = async (post: createPost) => {
     const response = await fetchData("http://localhost:5000/api/posts/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(post)
+    });
+
+    return response.json();
+}
+
+export const updatePost = async (post: updatePost) => {
+    const response = await fetchData("http://localhost:5000/api/posts/update/content", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
