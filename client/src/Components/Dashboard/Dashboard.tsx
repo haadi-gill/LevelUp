@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as PostsApi from "../../network/posts_api";
+import { getPosts, Post } from '@/models/posts'
 import "./Dashboard.css";
 
-type Note = {
-  id: number;
-  title: string;
-  content: string;
-};
 
 function Dashboard() {
 
@@ -15,25 +11,21 @@ function Dashboard() {
   const {id} = useParams<string>()
   const userId = id || 'default'
 
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const [selectedNote, setSelectedNote] =
-    useState<Note | null>(null);
+    useState<Post | null>(null);
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/notes"
-        );
+        const response = await PostsApi.getMyPosts(userId); 
+        console.log(response)
+        setPosts(response.posts);
 
-        const notes: Note[] =
-          await response.json();
-
-        setNotes(notes);
       } catch (e) {
         console.log(e);
       }
@@ -42,32 +34,26 @@ function Dashboard() {
     fetchNotes();
   }, []);
 
-  function handleNoteClick (note: Note) {
+  function handleNoteClick (note: Post) {
     setSelectedNote(note);
     setTitle(note.title);
-    setContent(note.content);
+    setContent(note.task);
   };
 
   async function handleAddNote (event: React.FormEvent) {
     event.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/notes",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title,
-            content,
-          }),
-        }
-      );
+     
+      const createPostInfo = {title:title, task:content, user_id:userId};
 
-      const newNote = await response.json();
+      
+      const response = await PostsApi.createPost(createPostInfo);
+      console.log(response);
 
-      setNotes([newNote, ...notes]);
+
+      const postReponse = await PostsApi.getMyPosts(userId);
+      setPosts(postReponse.posts);
+
       setTitle("");
       setContent("");
     } catch (e) {
@@ -82,30 +68,17 @@ function Dashboard() {
       return;
     }
 
+    const postID = selectedNote._id;
+
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/notes/${selectedNote.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title,
-            content,
-          }),
-        }
-      );
+      const updatedContent = {postID:postID, title:title, task:content}
+     
+      const updateResponse = await PostsApi.updatePost(updatedContent);
 
-      const updatedNote = await response.json();
-
-      const updatedNotesList = notes.map((note) =>
-        note.id === selectedNote.id
-          ? updatedNote
-          : note
-      );
-
-      setNotes(updatedNotesList);
+            
+      const postReponse = await PostsApi.getMyPosts(userId);
+      setPosts(postReponse.posts);
+      
       setTitle("");
       setContent("");
       setSelectedNote(null);
@@ -120,21 +93,20 @@ function Dashboard() {
     setSelectedNote(null);
   };
 
-  async function deleteNote (event: React.MouseEvent, noteId: number) {
+  async function deleteNote (event: React.MouseEvent, noteId: string) {
     event.stopPropagation();
 
     try {
-      await fetch(
-        `http://localhost:5000/api/notes/${noteId}`,
-        {
-          method: "DELETE",
-        }
-      );
-      const updatedNotes = notes.filter(
-        (note) => note.id !== noteId
-      );
+      console.log("Note ID below:")
+      console.log(noteId);
+      console.log("Note ID above:")
+      const deleteResponse = await PostsApi.deletePost({postID:noteId});
+      console.log(deleteResponse)
 
-      setNotes(updatedNotes);
+      const postResponse = await PostsApi.getMyPosts(userId);
+
+      setPosts(postResponse.posts);
+
     } catch (e) {
       console.log(e);
     }
@@ -159,13 +131,13 @@ function Dashboard() {
       </form>
 
       <div className="NotesList">
-        {notes.map((note) => (
-          <div key={ note.id } className="Note" onClick={ () => handleNoteClick(note) }>
+        {posts.map((note) => (
+          <div key={ note._id } className="Note" onClick={ () => handleNoteClick(note) }>
             <div className="NoteHeader">
-              <button onClick={(event) => deleteNote(event, note.id) }> X </button>
+              <button onClick={(event) => deleteNote(event, note._id) }> X </button>
             </div>
             <h3>{note.title}</h3>
-            <p>{note.content}</p>
+            <p>{note.task}</p>
           </div>
         ))}
       </div>
