@@ -22,7 +22,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await PostsApi.getAllPosts(); 
+        const response = await PostsApi.getMyPosts(userId); 
         console.log(response)
         setPosts(response.posts);
 

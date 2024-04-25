@@ -24,7 +24,9 @@ interface updatePostBodyFull {
     title?: String,
     task?: String
 }
-
+interface userIDParam{
+    user_id?:string
+}
 
 export const create: RequestHandler = async (req, res, next) => {
 
@@ -54,7 +56,8 @@ export const create: RequestHandler = async (req, res, next) => {
 
 export const getMyPosts: RequestHandler = async (req, res, next) => {
     try {
-        const posts = await PostModel.find({ _id: req.session.userId }).exec();
+        const {user_id} = req.body as userIDParam;
+        const posts = await PostModel.find({ _id: user_id }).exec();
 
         res.status(200).json({ posts: posts });
     }
