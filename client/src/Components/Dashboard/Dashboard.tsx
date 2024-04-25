@@ -97,17 +97,15 @@ function Dashboard() {
     event.stopPropagation();
 
     try {
-      await fetch(
-        `http://localhost:5000/api/posts/delete`,
-        {
-          method: "DELETE",
-        }
-      );
-      const updatedNotes = posts.filter(
-        (note) => note._id !== noteId
-      );
+      console.log("Note ID below:")
+      console.log(noteId);
+      console.log("Note ID above:")
+      await PostsApi.deletePost(noteId);
 
-      setPosts(updatedNotes);
+      const postResponse = await PostsApi.getAllPosts();
+
+      setPosts(postResponse.posts);
+
     } catch (e) {
       console.log(e);
     }
