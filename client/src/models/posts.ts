@@ -6,6 +6,7 @@ export interface Post {
     imageURL?: string;
     likes: string[];
     date: Date;
+    _id: string;
 }
 
 export interface getPostAfterUpdate {

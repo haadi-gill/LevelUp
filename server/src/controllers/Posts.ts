@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import PostModel from "../models/Post";
+import {ObjectId} from 'mongodb';
 
 
 interface createPostBody {
@@ -19,14 +20,21 @@ interface updatePostBody {
     postID?: string,
     data?: string
 }
-
+interface updatePostBodyFull {
+    postID?: String,
+    title?: String,
+    task?: String
+}
+interface userIDParam{
+    user_id?:string
+}
 
 export const create: RequestHandler = async (req, res, next) => {
 
     const { title, task, photos, user_id } = req.body as createPostBody;
 
     try {
-        if (!task || !user_id || !title) {
+        if (!task || !title ) {
             throw new Error("Missing fields");
         }
 
@@ -49,9 +57,11 @@ export const create: RequestHandler = async (req, res, next) => {
 };
 
 export const getMyPosts: RequestHandler = async (req, res, next) => {
+    const id = req.params.id;
+    console.log(`id:${id}`)
     try {
-        const posts = await PostModel.find({ _id: req.session.userId }).exec();
-
+        const posts = await PostModel.find({ author: id}).exec();
+        console.log(posts)
         res.status(200).json({ posts: posts });
     }
     catch (error) {
@@ -158,6 +168,41 @@ export const updateCaption: RequestHandler = async (req, res, next) => {
 };
 
 
+/**
+ *  A function to update the Caption of a Post using the unique post ID within the Mongo database
+ * Follows same format as updateTitle
+ */
+export const updateContent: RequestHandler = async (req, res, next) => {
+
+    const {postID, title, task} = req.body as updatePostBodyFull;
+
+    try {
+        
+        if(!postID || !title || !task){
+            throw new Error("Missing fields");
+        }
+
+        const date = new Date();
+        
+        const post = await PostModel.find({ _id: postID });
+
+        if (post.length == 0){
+            throw new Error("Post not found")
+        }
+
+        const newPost = await PostModel.updateOne({_id: postID}, {$set: {title: title, task: task, date: date}});
+
+
+        
+        res.status(201).json({ message: "Post Update Successful", post:newPost});
+
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+
 
 interface updatePostComplete{
     postID?: string,
@@ -165,6 +210,9 @@ interface updatePostComplete{
     data?: Boolean
 }
 
+interface deletePost{
+    postID?: string
+}
 
 
 /**
@@ -244,6 +292,41 @@ export const updateLiked: RequestHandler = async (req, res, next) => {
 
     }
     catch (error) {
+        next(error);
+    }
+};
+
+
+
+
+/**
+ *  A function to update the delete a post
+ * Follows similar format to updateTitle
+ */
+export const deletePost: RequestHandler = async (req, res, next) => {
+    
+    const {postID} = req.body as deletePost;
+
+    try {
+        
+        if(!postID){
+            throw new Error("Missing fields");
+        }
+
+        const post = await PostModel.find({ _id: postID });
+
+        if (post.length == 0){
+            throw new Error("Post not found")
+        }
+        console.log("Post found")
+        const newPost = await PostModel.deleteOne({_id: new ObjectId(postID)});
+        console.log("Post deleted")
+        
+        res.status(201).json({ message: "Post Deleted Successfully", post:newPost, oldPost: post});
+
+    }
+    catch (error) {
+        console.error(error)
         next(error);
     }
 };
