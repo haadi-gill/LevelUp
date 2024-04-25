@@ -51,7 +51,7 @@ function Dashboard() {
       console.log(response);
 
 
-      const postReponse = await PostsApi.getAllPosts();
+      const postReponse = await PostsApi.getMyPosts(userId);
       setPosts(postReponse.posts);
 
       setTitle("");
@@ -76,7 +76,7 @@ function Dashboard() {
       const updateResponse = await PostsApi.updatePost(updatedContent);
 
             
-      const postReponse = await PostsApi.getAllPosts();
+      const postReponse = await PostsApi.getMyPosts(userId);
       setPosts(postReponse.posts);
       
       setTitle("");
@@ -103,7 +103,7 @@ function Dashboard() {
       const deleteResponse = await PostsApi.deletePost({postID:noteId});
       console.log(deleteResponse)
 
-      const postResponse = await PostsApi.getAllPosts();
+      const postResponse = await PostsApi.getMyPosts(userId);
 
       setPosts(postResponse.posts);
 

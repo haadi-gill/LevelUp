@@ -63,12 +63,8 @@ export async function getAllPosts(): Promise<getPosts> {
 }
 
 export async function getMyPosts(user_id: string): Promise<getPosts> {
-    const response = await fetchData("http://localhost:5000/api/posts/myposts", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({user_id: user_id})
+    const response = await fetchData(`http://localhost:5000/api/posts/myposts/${user_id}`, {
+        method: "GET"
     });
 
     return response.json();

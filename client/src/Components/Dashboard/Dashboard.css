@@ -16,7 +16,7 @@ body {
   gap: 20px;
 }
 
-.-Note {
+.Note {
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;

@@ -55,10 +55,11 @@ export const create: RequestHandler = async (req, res, next) => {
 };
 
 export const getMyPosts: RequestHandler = async (req, res, next) => {
+    const id = req.params.id;
+    console.log(`id:${id}`)
     try {
-        const {user_id} = req.body as userIDParam;
-        const posts = await PostModel.find({ _id: user_id }).exec();
-
+        const posts = await PostModel.find({ author: id}).exec();
+        console.log(posts)
         res.status(200).json({ posts: posts });
     }
     catch (error) {
